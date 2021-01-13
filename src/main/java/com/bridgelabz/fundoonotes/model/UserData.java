@@ -26,8 +26,6 @@ public @Data class UserData {
 	
 	private String phoneNumber;
 	
-	private String token;
-	
 	public UserData() { }
 	
 	public UserData(UserDTO userDTO) {

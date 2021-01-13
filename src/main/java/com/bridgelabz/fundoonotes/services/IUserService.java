@@ -13,4 +13,7 @@ public interface IUserService {
 
 	ResponseDTO signinUserData(LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException;
 
+	ResponseDTO forgotPassword(String email);
+
+	ResponseDTO resetPassword(String token, LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException;
 }

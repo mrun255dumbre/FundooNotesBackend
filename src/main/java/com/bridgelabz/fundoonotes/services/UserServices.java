@@ -8,6 +8,7 @@ import com.bridgelabz.fundoonotes.dto.ResponseDTO;
 import com.bridgelabz.fundoonotes.dto.UserDTO;
 import com.bridgelabz.fundoonotes.model.UserData;
 import com.bridgelabz.fundoonotes.repository.IUserRepository;
+import com.bridgelabz.fundoonotes.utility.EmailService;
 import com.bridgelabz.fundoonotes.utility.JwtToken;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,9 @@ public class UserServices implements IUserService {
 	
 	@Autowired
 	private JwtToken jwtToken;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Override
 	public UserData signupUserData(UserDTO userDTO) {
@@ -47,6 +51,34 @@ public class UserServices implements IUserService {
 			}
 		}
 		response = new ResponseDTO("User not Present", null);
+		return response;
+	}
+
+	@Override
+	public ResponseDTO forgotPassword(String email) {
+		ResponseDTO response = null;
+		Optional<UserData> user = userRepository.findByEmail(email);
+		if(user.isPresent()) {
+			String subject = "Reset Password";
+			String tokengenerate = jwtToken.generateToken(user.get().getId());
+			String text = "To reset your Password, please click here :"+"http://localhost:3000/reset-password/" + tokengenerate;
+			emailService.sendEmail(user.get().getEmail(), subject, text);
+			System.out.println("email = "+user.get().getEmail());
+			response = new ResponseDTO("Token", tokengenerate);
+		}
+		return response;
+	}
+
+	@Override
+	public ResponseDTO resetPassword(String token, LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException {
+		ResponseDTO response = null;
+		long id = jwtToken.decodeToken(token);
+		Optional<UserData> user = userRepository.findById((int) id);
+		if (user.isPresent()) {
+			user.get().setPassword(loginDTO.getPassword());
+			userRepository.save(user.get());
+			response = new ResponseDTO("Success", user);
+		}
 		return response;
 	}
 }

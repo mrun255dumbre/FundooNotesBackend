@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,8 +34,20 @@ public class UserController {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<ResponseDTO> signinUser(@RequestBody LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException{
+	public ResponseEntity<ResponseDTO> signinUser(@Valid @RequestBody LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException{
 		ResponseDTO responseDTO = userService.signinUserData(loginDTO);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
+	
+	@PostMapping("/forgotpassword")
+    public ResponseEntity<ResponseDTO> forgotPasword(@RequestBody LoginDTO loginDTO){
+		ResponseDTO respDTO = userService.forgotPassword(loginDTO.getEmail());
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+    }
+	
+	@PutMapping("/resetpassword/{token}")
+    public ResponseEntity<ResponseDTO> resetpassword(@PathVariable("token") String token, @RequestBody LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException {
+		ResponseDTO respDTO = userService.resetPassword(token, loginDTO);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+    }
 }
