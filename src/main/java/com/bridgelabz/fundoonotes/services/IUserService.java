@@ -9,11 +9,11 @@ import com.bridgelabz.fundoonotes.model.UserData;
 
 public interface IUserService {
 
-	UserData signupUserData(UserDTO userDTO);
+	ResponseDTO signupUserData(UserDTO userDTO);
 
-	ResponseDTO signinUserData(LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException;
+	ResponseDTO signinUserData(LoginDTO loginDTO);
 
 	ResponseDTO forgotPassword(String email);
 
-	ResponseDTO resetPassword(String token, LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException;
+	ResponseDTO resetPassword(String token, LoginDTO loginDTO);
 }

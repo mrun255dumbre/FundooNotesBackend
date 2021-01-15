@@ -28,15 +28,19 @@ public class JwtToken {
 		return token;
 	}
 	
-	public long decodeToken(String token) throws IllegalArgumentException, UnsupportedEncodingException {
-		System.out.println(token);
-		long userid;
-		Verification verification = JWT.require(Algorithm.HMAC256(Token));
-		JWTVerifier jwtverifier = verification.build();
-		DecodedJWT decodedjwt = jwtverifier.verify(token);
-		Claim claim = decodedjwt.getClaim("ID");
-		userid = claim.asLong();
-		System.out.println(userid);
-		return userid;
+	public long decodeToken(String token){
+		long userId = 0L;
+		try {
+			Verification verification;
+			verification = JWT.require(Algorithm.HMAC256(Token));
+			JWTVerifier jwtverifier = verification.build();
+			DecodedJWT decodedjwt = jwtverifier.verify(token);
+			Claim claim = decodedjwt.getClaim("ID");
+			userId = claim.asLong();
+			return userId;
+		} catch (IllegalArgumentException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return userId;
 	}
 }

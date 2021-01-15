@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundoonotes.dto.LoginDTO;
 import com.bridgelabz.fundoonotes.dto.ResponseDTO;
 import com.bridgelabz.fundoonotes.dto.UserDTO;
-import com.bridgelabz.fundoonotes.model.UserData;
 import com.bridgelabz.fundoonotes.services.IUserService;
 
 @CrossOrigin(origins = "*")
@@ -28,13 +27,12 @@ public class UserController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<ResponseDTO> addUser(@Valid @RequestBody UserDTO userDTO){
-		UserData user = userService.signupUserData(userDTO);
-		ResponseDTO respDTO = new ResponseDTO("Success", user);
-		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+		ResponseDTO user = userService.signupUserData(userDTO);
+		return new ResponseEntity<ResponseDTO>(user, HttpStatus.OK);
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<ResponseDTO> signinUser(@Valid @RequestBody LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException{
+	public ResponseEntity<ResponseDTO> signinUser(@Valid @RequestBody LoginDTO loginDTO) {
 		ResponseDTO responseDTO = userService.signinUserData(loginDTO);
 		return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
 	}
@@ -46,7 +44,7 @@ public class UserController {
     }
 	
 	@PutMapping("/resetpassword/{token}")
-    public ResponseEntity<ResponseDTO> resetpassword(@PathVariable("token") String token, @RequestBody LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException {
+    public ResponseEntity<ResponseDTO> resetpassword(@PathVariable("token") String token, @RequestBody LoginDTO loginDTO) {
 		ResponseDTO respDTO = userService.resetPassword(token, loginDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }

@@ -30,17 +30,26 @@ public class UserServices implements IUserService {
 	private EmailService emailService;
 	
 	@Override
-	public UserData signupUserData(UserDTO userDTO) {
+	public ResponseDTO signupUserData(UserDTO userDTO) {
+		ResponseDTO response = null;
 		UserData user = new UserData(userDTO);
-		log.debug("User Data: "+user.toString());
-		return userRepository.save(user);
+		Optional<UserData> availability = userRepository.findByEmail(user.getEmail());
+		if(availability.isPresent()) {
+			response = new ResponseDTO("Email Already Present", null);
+			return response;
+		} else {
+			log.debug("User Data: " + user.toString());
+			userRepository.save(user);
+			response = new ResponseDTO("Success", user);
+			return response;
+		}
 	}
 
 	@Override
-	public ResponseDTO signinUserData(LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException {
+	public ResponseDTO signinUserData(LoginDTO loginDTO) {
 		ResponseDTO response = null;
 		UserData user = new UserData(loginDTO);
-		log.debug("User Data: "+user.toString());
+		log.debug("User Data: " + user.toString());
 		Optional<UserData> availability = userRepository.findByEmail(user.getEmail());
 		if(availability.isPresent()) {
 			boolean checkUser = userRepository.existsByPassword(user.getPassword());
@@ -63,14 +72,13 @@ public class UserServices implements IUserService {
 			String tokengenerate = jwtToken.generateToken(user.get().getId());
 			String text = "To reset your Password, please click here :"+"http://localhost:3000/reset-password/" + tokengenerate;
 			emailService.sendEmail(user.get().getEmail(), subject, text);
-			System.out.println("email = "+user.get().getEmail());
 			response = new ResponseDTO("Token", tokengenerate);
 		}
 		return response;
 	}
 
 	@Override
-	public ResponseDTO resetPassword(String token, LoginDTO loginDTO) throws IllegalArgumentException, UnsupportedEncodingException {
+	public ResponseDTO resetPassword(String token, LoginDTO loginDTO) {
 		ResponseDTO response = null;
 		long id = jwtToken.decodeToken(token);
 		Optional<UserData> user = userRepository.findById((int) id);
