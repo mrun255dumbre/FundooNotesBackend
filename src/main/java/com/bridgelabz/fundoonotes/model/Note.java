@@ -17,11 +17,14 @@ public @Data class Note {
 	@ManyToOne
     @JoinColumn(name = "user")
     private UserData user;
-    //private int userId;
 	
 	private String title;
 	
 	private String description;
+	
+	private boolean isPin;
+	private boolean isTrash;
+	private boolean isArchive;
 	
 	public Note() { }
 	
@@ -33,6 +36,9 @@ public @Data class Note {
 		this.user = noteDTO.userId;
 		this.title = noteDTO.title;
 		this.description = noteDTO.description;
+		this.isArchive = noteDTO.isArchive;
+		this.isPin = noteDTO.isPin;
+		this.isTrash = noteDTO.isTrash;
 	}
 	
 	public UserData getUser() {

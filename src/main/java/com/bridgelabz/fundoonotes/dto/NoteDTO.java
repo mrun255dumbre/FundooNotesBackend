@@ -18,4 +18,8 @@ public @ToString class NoteDTO {
 
 	@NotBlank
 	public String description;
+	
+	public boolean isPin;
+	public boolean isTrash;
+	public boolean isArchive;
 }

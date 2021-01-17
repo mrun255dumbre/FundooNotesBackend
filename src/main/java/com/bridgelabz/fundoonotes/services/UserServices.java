@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.bridgelabz.fundoonotes.dto.LoginDTO;
 import com.bridgelabz.fundoonotes.dto.ResponseDTO;
 import com.bridgelabz.fundoonotes.dto.UserDTO;
+import com.bridgelabz.fundoonotes.exception.UserException;
 import com.bridgelabz.fundoonotes.model.UserData;
 import com.bridgelabz.fundoonotes.repository.IUserRepository;
 import com.bridgelabz.fundoonotes.utility.EmailService;
@@ -35,8 +36,7 @@ public class UserServices implements IUserService {
 		UserData user = new UserData(userDTO);
 		Optional<UserData> availability = userRepository.findByEmail(user.getEmail());
 		if(availability.isPresent()) {
-			response = new ResponseDTO("Email Already Present", null);
-			return response;
+			throw new  UserException("Email Already Present");
 		} else {
 			log.debug("User Data: " + user.toString());
 			userRepository.save(user);
@@ -59,8 +59,7 @@ public class UserServices implements IUserService {
 				return response;
 			}
 		}
-		response = new ResponseDTO("User not Present", null);
-		return response;
+		throw new  UserException("User not Present");
 	}
 
 	@Override

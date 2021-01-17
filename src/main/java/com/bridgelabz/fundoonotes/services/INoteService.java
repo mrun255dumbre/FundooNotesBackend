@@ -9,8 +9,18 @@ import com.bridgelabz.fundoonotes.model.Note;
 
 public interface INoteService {
 
-	ResponseDTO createNote(NoteDTO noteDTO, String token) throws IllegalArgumentException, UnsupportedEncodingException;
+	ResponseDTO createNote(NoteDTO noteDTO, String token);
 
-	List<Note> getNote(String token) throws IllegalArgumentException, UnsupportedEncodingException;
+	List<Note> getNote(String token);
+
+	ResponseDTO updateNote(NoteDTO noteDTO, String token, int id);
+
+	ResponseDTO deleteNote(String token, int id);
+
+	ResponseDTO pinNote(String token, int id);
+
+	ResponseDTO trashNote(String token, int id);
+
+	ResponseDTO archiveNote(String token, int id);
 
 }
