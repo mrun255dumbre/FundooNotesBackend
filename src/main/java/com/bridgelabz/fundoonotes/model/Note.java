@@ -15,7 +15,7 @@ public @Data class Note {
 	private int noteId;
 	
 	@ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private UserData user;
 	
 	private String title;

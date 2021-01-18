@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.ToString;
 
-public @ToString class UserDTO {
+public class UserDTO {
 	private int id;
 
 	@NotBlank
@@ -24,4 +24,11 @@ public @ToString class UserDTO {
 	@NotBlank
 	@Size(max = 13)
 	public String phoneNumber;
+	
+	@Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                '}';
+    }
 }

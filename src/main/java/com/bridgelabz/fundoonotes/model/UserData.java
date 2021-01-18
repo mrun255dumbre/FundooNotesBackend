@@ -48,7 +48,6 @@ public @Data class UserData {
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

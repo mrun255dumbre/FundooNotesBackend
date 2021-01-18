@@ -13,8 +13,6 @@ import com.bridgelabz.fundoonotes.utility.EmailService;
 import com.bridgelabz.fundoonotes.utility.JwtToken;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @Service
@@ -59,7 +57,7 @@ public class UserServices implements IUserService {
 				return response;
 			}
 		}
-		throw new  UserException("User not Present");
+		throw new  UserException("Email Id or Password is incorrect");
 	}
 
 	@Override
@@ -72,6 +70,8 @@ public class UserServices implements IUserService {
 			String text = "To reset your Password, please click here :"+"http://localhost:3000/reset-password/" + tokengenerate;
 			emailService.sendEmail(user.get().getEmail(), subject, text);
 			response = new ResponseDTO("Token", tokengenerate);
+		} else {
+			throw new UserException("Email Id not found");
 		}
 		return response;
 	}
@@ -85,6 +85,8 @@ public class UserServices implements IUserService {
 			user.get().setPassword(loginDTO.getPassword());
 			userRepository.save(user.get());
 			response = new ResponseDTO("Success", user);
+		} else {
+			throw new UserException("User not present");
 		}
 		return response;
 	}
