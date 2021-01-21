@@ -1,9 +1,12 @@
 package com.bridgelabz.fundoonotes.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.bridgelabz.fundoonotes.dto.LoginDTO;
 import com.bridgelabz.fundoonotes.dto.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -22,9 +25,14 @@ public @Data class UserData {
 
 	private String email;
 
+	@JsonIgnore
 	private String password;
 	
 	private String phoneNumber;
+	
+	@JsonIgnore
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Label> labels;
 	
 	public UserData() { }
 	
@@ -47,6 +55,8 @@ public @Data class UserData {
 	@Override
     public String toString() {
         return "User{" +
+        		"id='" + id + '\'' +
+        		"userName='" + username + '\'' +
                 "email='" + email + '\'' +
                 '}';
     }

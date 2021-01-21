@@ -1,17 +1,17 @@
 package com.bridgelabz.fundoonotes.controllers;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.fundoonotes.dto.LoginDTO;
@@ -46,6 +46,12 @@ public class UserController {
 	@PutMapping("/resetpassword/{token}")
     public ResponseEntity<ResponseDTO> resetpassword(@PathVariable("token") String token, @RequestBody LoginDTO loginDTO) {
 		ResponseDTO respDTO = userService.resetPassword(token, loginDTO);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+    }
+	
+	@GetMapping("/")
+    public ResponseEntity<ResponseDTO> getUser(@RequestHeader String token) {
+		ResponseDTO respDTO = userService.getUser(token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
     }
 }

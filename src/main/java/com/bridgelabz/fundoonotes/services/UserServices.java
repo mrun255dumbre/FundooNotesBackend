@@ -38,7 +38,7 @@ public class UserServices implements IUserService {
 		} else {
 			log.debug("User Data: " + user.toString());
 			userRepository.save(user);
-			response = new ResponseDTO("Success", user);
+			response = new ResponseDTO("Success", user.toString());
 			return response;
 		}
 	}
@@ -84,10 +84,17 @@ public class UserServices implements IUserService {
 		if (user.isPresent()) {
 			user.get().setPassword(loginDTO.getPassword());
 			userRepository.save(user.get());
-			response = new ResponseDTO("Success", user);
+			response = new ResponseDTO("Success", user.toString());
 		} else {
 			throw new UserException("User not present");
 		}
 		return response;
+	}
+
+	@Override
+	public ResponseDTO getUser(String token) {
+		int id = (int) jwtToken.decodeToken(token);
+		Optional<UserData> user = userRepository.findById(id);
+		return new ResponseDTO("Success", user.get().getUsername());
 	}
 }

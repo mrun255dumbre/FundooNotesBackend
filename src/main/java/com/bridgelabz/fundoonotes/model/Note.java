@@ -2,8 +2,12 @@ package com.bridgelabz.fundoonotes.model;
 
 
 import com.bridgelabz.fundoonotes.dto.NoteDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +18,7 @@ public @Data class Note {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int noteId;
 	
+	@JsonIgnore
 	@ManyToOne
     @JoinColumn(name = "user_id")
     private UserData user;
@@ -25,6 +30,14 @@ public @Data class Note {
 	private boolean isPin;
 	private boolean isTrash;
 	private boolean isArchive;
+	
+	@JsonIgnore
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+			  name = "note_labels", 
+			  joinColumns = @JoinColumn(name = "note_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "label_id"))
+	private List<Label> noteLabels;
 	
 	public Note() { }
 	

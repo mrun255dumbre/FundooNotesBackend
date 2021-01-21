@@ -1,11 +1,8 @@
 package com.bridgelabz.fundoonotes.services;
 
-import java.io.UnsupportedEncodingException;
-
 import com.bridgelabz.fundoonotes.dto.LoginDTO;
 import com.bridgelabz.fundoonotes.dto.ResponseDTO;
 import com.bridgelabz.fundoonotes.dto.UserDTO;
-import com.bridgelabz.fundoonotes.model.UserData;
 
 public interface IUserService {
 
@@ -16,4 +13,6 @@ public interface IUserService {
 	ResponseDTO forgotPassword(String email);
 
 	ResponseDTO resetPassword(String token, LoginDTO loginDTO);
+
+	ResponseDTO getUser(String token);
 }

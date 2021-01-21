@@ -10,6 +10,6 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
 	List<Note> findByUserId(int userid);
 
-	Note findByNoteIdAndUserId(int id, int userid);
+	Note findByNoteIdAndUserId(int noteId, int userid);
 
 }

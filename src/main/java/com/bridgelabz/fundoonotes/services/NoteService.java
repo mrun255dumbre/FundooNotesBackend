@@ -36,7 +36,7 @@ public class NoteService implements INoteService {
 		} else {
 			note.setUser(userRepository.findById(id).get());
 			noteRepository.save(note);
-			response = new ResponseDTO("Note created", note);
+			response = new ResponseDTO("Note created", note.toString());
 			return response;
 		}	
 	}
@@ -59,7 +59,7 @@ public class NoteService implements INoteService {
 		notes.setTitle(note.getTitle());
 		notes.setDescription(note.getDescription());
 		note = noteRepository.save(notes);
-		ResponseDTO response = new ResponseDTO("Note Updated", note);
+		ResponseDTO response = new ResponseDTO("Note Updated", note.toString());
 		return response;
 	}
 
@@ -70,7 +70,7 @@ public class NoteService implements INoteService {
 		Note note = noteRepository.findByNoteIdAndUserId(id, userid);
 		if (note.isTrash() == true) {
 			noteRepository.delete(note);
-			response = new ResponseDTO("Note Deleted", note);
+			response = new ResponseDTO("Note Deleted", note.toString());
 		} else {
 			throw new UserException("Deletion Failed");
 		}
@@ -85,11 +85,11 @@ public class NoteService implements INoteService {
 		if (note.isPin() == false) {
 			note.setPin(true);
 			noteRepository.save(note);
-			response = new ResponseDTO("Note Pinned", note);
+			response = new ResponseDTO("Note Pinned", note.toString());
 		} else if (note.isPin() == true) {
 			note.setPin(false);
 			noteRepository.save(note);
-			response = new ResponseDTO("Unpinned", note);
+			response = new ResponseDTO("Unpinned", note.toString());
 		} else {
 			throw new UserException("Pinned Operation Failed");
 		}
@@ -104,11 +104,11 @@ public class NoteService implements INoteService {
 		if (note.isTrash() == false) {
 			note.setTrash(true);
 			noteRepository.save(note);
-			response = new ResponseDTO("Note added to Trash", note);
+			response = new ResponseDTO("Note added to Trash", note.toString());
 		} else if (note.isTrash() == true) {
 			note.setTrash(false);
 			noteRepository.save(note);
-			response = new ResponseDTO("Note Restore", note);
+			response = new ResponseDTO("Note Restore", note.toString());
 		} else {
 			throw new UserException("Trash Operation Failed");
 		}
@@ -123,11 +123,11 @@ public class NoteService implements INoteService {
 		if (note.isArchive() == false) {
 			note.setArchive(true);
 			noteRepository.save(note);
-			response = new ResponseDTO("Note Archived", note);
+			response = new ResponseDTO("Note Archived", note.toString());
 		} else if (note.isArchive() == true) {
 			note.setArchive(false);
 			noteRepository.save(note);
-			response = new ResponseDTO("Note Unarchived", note);
+			response = new ResponseDTO("Note Unarchived", note.toString());
 		} else {
 			throw new UserException("Archive Operation Failed");
 		}

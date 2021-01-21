@@ -1,6 +1,5 @@
 package com.bridgelabz.fundoonotes.services;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import com.bridgelabz.fundoonotes.dto.NoteDTO;

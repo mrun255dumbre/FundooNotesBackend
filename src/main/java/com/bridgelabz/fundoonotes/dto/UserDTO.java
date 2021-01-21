@@ -3,7 +3,6 @@ package com.bridgelabz.fundoonotes.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.ToString;
 
 public class UserDTO {
 	private int id;
